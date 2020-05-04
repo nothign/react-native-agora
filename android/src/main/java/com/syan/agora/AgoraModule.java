@@ -1132,6 +1132,65 @@ public class AgoraModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void setVideoEncoderConfiguration(ReadableMap options, Promise promise) {
+        VideoEncoderConfiguration encoderConfiguration = new VideoEncoderConfiguration();
+        if (options.hasKey("width") && options.hasKey("height")) {
+            encoderConfiguration.dimensions =
+                    new VideoEncoderConfiguration.VideoDimensions(options.getInt("width"), options.getInt("height"));
+        }
+        if (options.hasKey("frameRate")) {
+            encoderConfiguration.frameRate = options.getInt("frameRate");
+        }
+        if (options.hasKey("minFrameRate")) {
+            encoderConfiguration.minFrameRate = options.getInt("minFrameRate");
+        }
+        if (options.hasKey("bitrate")) {
+            encoderConfiguration.bitrate = options.getInt("bitrate");
+        }
+        if (options.hasKey("minBitrate")) {
+            encoderConfiguration.minBitrate = options.getInt("minBitrate");
+        }
+        if (options.hasKey("orientationMode")) {
+            switch (options.getInt("orientationMode")) {
+                case 0: {
+                    encoderConfiguration.orientationMode = VideoEncoderConfiguration.ORIENTATION_MODE.ORIENTATION_MODE_ADAPTIVE;
+                    break;
+                }
+                case 1: {
+                    encoderConfiguration.orientationMode = VideoEncoderConfiguration.ORIENTATION_MODE.ORIENTATION_MODE_FIXED_LANDSCAPE;
+                    break;
+                }
+                case 2: {
+                    encoderConfiguration.orientationMode = VideoEncoderConfiguration.ORIENTATION_MODE.ORIENTATION_MODE_FIXED_PORTRAIT;
+                    break;
+                }
+            }
+        }
+        if (options.hasKey("degradationPrefer")) {
+            switch (options.getInt("degradationPrefer")) {
+                case 0: {
+                    encoderConfiguration.degradationPrefer = VideoEncoderConfiguration.DEGRADATION_PREFERENCE.MAINTAIN_QUALITY;
+                    break;
+                }
+                case 1: {
+                    encoderConfiguration.degradationPrefer = VideoEncoderConfiguration.DEGRADATION_PREFERENCE.MAINTAIN_FRAMERATE;
+                    break;
+                }
+                case 2: {
+                    encoderConfiguration.degradationPrefer = VideoEncoderConfiguration.DEGRADATION_PREFERENCE.MAINTAIN_BALANCED;
+                    break;
+                }
+            }
+        }
+        Integer res = rtcEngine.setVideoEncoderConfiguration(encoderConfiguration);
+        if (res == 0) {
+            promise.resolve(null);
+        } else {
+            promise.reject("-1", res.toString());
+        }
+    } 
+
+    @ReactMethod
     public void enableWebSdkInteroperability(boolean enabled, Promise promise) {
         Integer res = AgoraManager.getInstance().enableWebSdkInteroperability(enabled);
         if (res == 0) {
