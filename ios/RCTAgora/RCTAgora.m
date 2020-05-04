@@ -1781,7 +1781,7 @@ RCT_EXPORT_METHOD(setVideoEncoderConfiguration:(NSDictionary *)config
                   resolve:(RCTPromiseResolveBlock)resolve
                   reject:(RCTPromiseRejectBlock)reject) {
   
-  AgoraVideoEncoderConfiguration *video_encoder_config = [[AgoraVideoEncoderConfiguration new] initWithWidth:[options[@"videoEncoderConfig"][@"width"] integerValue] height:[options[@"videoEncoderConfig"][@"height"] integerValue] frameRate:[options[@"videoEncoderConfig"][@"frameRate"] integerValue] bitrate:[options[@"videoEncoderConfig"][@"bitrate"] integerValue] orientationMode: (AgoraVideoOutputOrientationMode)[options[@"videoEncoderConfig"][@"orientationMode"] integerValue]];
+  AgoraVideoEncoderConfiguration *video_encoder_config = [[AgoraVideoEncoderConfiguration new] initWithWidth:[config[@"videoEncoderConfig"][@"width"] integerValue] height:[config[@"videoEncoderConfig"][@"height"] integerValue] frameRate:[config[@"videoEncoderConfig"][@"frameRate"] integerValue] bitrate:[config[@"videoEncoderConfig"][@"bitrate"] integerValue] orientationMode: (AgoraVideoOutputOrientationMode)[config[@"videoEncoderConfig"][@"orientationMode"] integerValue]];
   
   NSInteger res = [self.rtcEngine setVideoEncoderConfiguration:video_encoder_config];
   if (res == 0) {
